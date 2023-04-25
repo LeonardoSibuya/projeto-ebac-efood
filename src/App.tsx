@@ -1,14 +1,22 @@
-import React from 'react'
-import { GlobalCss } from './styles'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import HeaderComponent from './components/HeaderComponent'
+import { GlobalCss } from './styles'
+import Home from './pages/Home'
+import Products from './pages/Products'
+
+const Rotas = () => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/products" element={<Products />} />
+  </Routes>
+)
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <GlobalCss />
-      <HeaderComponent />
-    </div>
+      <Rotas />
+    </BrowserRouter>
   )
 }
 
