@@ -1,14 +1,26 @@
 import styled from 'styled-components'
 
-import BannerImage from '../../assets/images/bg-dark.png'
 import { colors } from '../../styles'
 
 export const BannerContainer = styled.div`
-  background-image: url(${BannerImage});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: block;
   margin-bottom: 56px;
+  width: 100%;
+  height: 280px;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    content: '';
+  }
 `
 export const Content = styled.div`
   display: flex;
@@ -21,9 +33,11 @@ export const Content = styled.div`
 
   span {
     font-weight: 100;
+    z-index: 1;
   }
 
   h3 {
     font-weight: 900;
+    z-index: 1;
   }
 `

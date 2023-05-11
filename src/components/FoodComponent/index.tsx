@@ -1,4 +1,3 @@
-import Link from '../Link'
 import Tag from '../Tag'
 
 import {
@@ -6,7 +5,8 @@ import {
   TagContent,
   InfoContainer,
   TitleContent,
-  RatingContainer
+  RatingContainer,
+  ButtonLink
 } from './styles'
 
 import iconStar from '../../assets/images/icons/star.png'
@@ -28,6 +28,13 @@ const FoodComponent = ({
   id,
   tagInfos
 }: Props) => {
+  const getDescription = (descricao: string) => {
+    if (descricao.length > 160) {
+      return descricao.slice(0, 157) + '...'
+    }
+    return descricao
+  }
+
   return (
     <FoodContainer>
       <img src={image} />
@@ -44,8 +51,8 @@ const FoodComponent = ({
             <img src={iconStar} alt="imagem estrela" />
           </RatingContainer>
         </TitleContent>
-        <p>{description}</p>
-        <Link />
+        <p>{getDescription(description)}</p>
+        <ButtonLink to={`/products/${id}`}>Saiba Mais</ButtonLink>
       </InfoContainer>
     </FoodContainer>
   )

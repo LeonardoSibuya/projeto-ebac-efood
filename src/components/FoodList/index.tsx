@@ -1,26 +1,42 @@
-import Food from '../../models/Food'
+import { FoodInfos } from '../../pages/Home'
+
 import FoodComponent from '../FoodComponent'
 
 import { ContentContainer, ListContainer } from './styles'
 
 type Props = {
-  foodArray: Food[]
+  foodArray: FoodInfos[]
 }
 
 const FoodList = ({ foodArray }: Props) => {
+  const getTags = (food: FoodInfos) => {
+    const tags = []
+
+    if (food.destacado) {
+      tags.push('Destaque da semana')
+    }
+
+    if (food.tipo) {
+      tags.push(food.tipo)
+    }
+
+    return tags
+  }
+
   return (
     <ContentContainer className="container">
       <ListContainer>
         {foodArray.map((food) => (
-          <FoodComponent
-            key={food.id}
-            image={food.image}
-            tagInfos={food.tagInfos}
-            title={food.title}
-            rating={food.rating}
-            description={food.description}
-            id={food.id}
-          />
+          <li key={food.id}>
+            <FoodComponent
+              id={food.id}
+              image={food.capa}
+              tagInfos={getTags(food)}
+              title={food.titulo}
+              rating={food.avaliacao}
+              description={food.descricao}
+            />
+          </li>
         ))}
       </ListContainer>
     </ContentContainer>

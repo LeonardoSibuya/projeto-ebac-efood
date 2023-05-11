@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '../../styles'
 import { TagContainer } from '../Tag/styles'
-import { ButtonLink } from '../Link/styles'
+import { Link } from 'react-router-dom'
 
 export const FoodContainer = styled.div`
   border: 1px solid ${colors.darkPink};
@@ -18,13 +18,6 @@ export const FoodContainer = styled.div`
 
   ${TagContainer} {
     margin-left: 12px;
-  }
-
-  ${ButtonLink} {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    text-decoration: none;
   }
 `
 export const TagContent = styled.div`
@@ -53,4 +46,16 @@ export const RatingContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`
+export const ButtonLink = styled(Link)`
+  background-color: ${colors.darkPink};
+  color: ${colors.lightPink};
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 6px;
+
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  text-decoration: none;
 `

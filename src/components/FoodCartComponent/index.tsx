@@ -1,26 +1,118 @@
-import ButtonAddCart from '../ButtonAddCart'
+import { useState } from 'react'
 
-import { FoodContainer, InfoContainer, TitleContent } from './styles'
+import botaoFechar from '../../assets/images/fechar.png'
 
-type Props = {
-  image: string
-  title: string
-  description: string
-  id: number
+import { CardapioItem } from '../../pages/Home/index'
+
+import {
+  FoodContainer,
+  InfoContainer,
+  TitleContent,
+  Content,
+  Modal,
+  ModalContainer,
+  ButtonCart,
+  ImgBotaoFechar
+} from './styles'
+
+interface modalState extends CardapioItem {
+  isVisible: boolean
 }
 
-const FoodCartComponent = ({ image, title, description, id }: Props) => {
+type Food = {
+  items: CardapioItem[]
+}
+
+const FoodCartComponent = ({ items }: Food) => {
+  const [modal, setModal] = useState<modalState>({
+    isVisible: false,
+    descricao: '',
+    foto: '',
+    id: 0,
+    nome: '',
+    porcao: '',
+    preco: 0
+  })
+
+  const closeModal = () => {
+    setModal({
+      isVisible: false,
+      descricao: '',
+      foto: '',
+      id: 0,
+      nome: '',
+      porcao: '',
+      preco: 0
+    })
+  }
+
+  const formatPrice = (preco = 0) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(preco)
+  }
+
+  const getDescription = (descricao: string) => {
+    if (descricao.length > 100) {
+      return descricao.slice(0, 97) + '...'
+    }
+    return descricao
+  }
+
   return (
-    <FoodContainer key={id}>
-      <img src={image} />
-      <InfoContainer>
-        <TitleContent>
-          <h3>{title}</h3>
-        </TitleContent>
-        <p>{description}</p>
-        <ButtonAddCart>Adicionar ao carrinho</ButtonAddCart>
-      </InfoContainer>
-    </FoodContainer>
+    <>
+      <FoodContainer className="container">
+        {items.map((food) => (
+          <li key={food.id}>
+            <img src={food.foto} />
+            <InfoContainer>
+              <TitleContent>
+                <h3>{food.nome}</h3>
+              </TitleContent>
+              <p>{getDescription(food.descricao)}</p>
+              <ButtonCart
+                onClick={() => {
+                  setModal({
+                    isVisible: true,
+                    descricao: food.descricao,
+                    foto: food.foto,
+                    id: food.id,
+                    nome: food.nome,
+                    porcao: food.porcao,
+                    preco: food.preco
+                  })
+                }}
+              >
+                Adicionar ao carrinho
+              </ButtonCart>
+            </InfoContainer>
+          </li>
+        ))}
+      </FoodContainer>
+
+      <Modal className={modal.isVisible ? 'visible' : ''}>
+        <ModalContainer className="container">
+          <div>
+            <img src={modal.foto} alt="imagem pizza" onClick={closeModal} />
+          </div>
+          <Content>
+            <h2>{modal.nome}</h2>
+            <p>{modal.descricao}</p>
+            <span>Serve {modal.porcao}</span>
+            <ButtonCart>
+              Adicionar ao carrinho - {formatPrice(modal.preco)}
+            </ButtonCart>
+          </Content>
+          <ImgBotaoFechar
+            src={botaoFechar}
+            alt="Botão fechar"
+            onClick={closeModal}
+          />
+        </ModalContainer>
+        <div className="overlay" onClick={closeModal}></div>
+      </Modal>
+    </>
   )
 }
 
