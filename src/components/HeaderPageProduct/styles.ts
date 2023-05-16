@@ -23,8 +23,11 @@ export const LinkLogo = styled(Link)`
   margin: 0 auto;
 `
 
-export const LinkHeader = styled.a`
-  text-decoration: none;
+export const Title = styled.h2`
+  font-size: 18px;
   color: ${colors.darkPink};
   margin-right: 80px;
+`
+export const CartButton = styled.a`
+  cursor: pointer;
 `

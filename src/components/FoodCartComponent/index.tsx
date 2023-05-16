@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import botaoFechar from '../../assets/images/fechar.png'
 
 import { CardapioItem } from '../../pages/Home/index'
+
+import { add, open } from '../../store/reducers/cart'
 
 import {
   FoodContainer,
@@ -23,7 +26,16 @@ type Food = {
   items: CardapioItem[]
 }
 
+export const formatPrice = (preco = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
+}
+
 const FoodCartComponent = ({ items }: Food) => {
+  const dispatch = useDispatch()
+
   const [modal, setModal] = useState<modalState>({
     isVisible: false,
     descricao: '',
@@ -33,6 +45,11 @@ const FoodCartComponent = ({ items }: Food) => {
     porcao: '',
     preco: 0
   })
+
+  const AddToCart = (item: CardapioItem) => {
+    dispatch(add(item))
+    dispatch(open())
+  }
 
   const closeModal = () => {
     setModal({
@@ -44,13 +61,6 @@ const FoodCartComponent = ({ items }: Food) => {
       porcao: '',
       preco: 0
     })
-  }
-
-  const formatPrice = (preco = 0) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(preco)
   }
 
   const getDescription = (descricao: string) => {
@@ -100,7 +110,7 @@ const FoodCartComponent = ({ items }: Food) => {
             <h2>{modal.nome}</h2>
             <p>{modal.descricao}</p>
             <span>Serve {modal.porcao}</span>
-            <ButtonCart>
+            <ButtonCart onClick={() => AddToCart(modal)}>
               Adicionar ao carrinho - {formatPrice(modal.preco)}
             </ButtonCart>
           </Content>

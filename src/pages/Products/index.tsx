@@ -7,20 +7,18 @@ import HeaderPageProduct from '../../components/HeaderPageProduct'
 
 import FoodCartComponent from '../../components/FoodCartComponent'
 
+import { useGetRestaurantsIdQuery } from '../../services/api'
+
 import { FoodInfos } from '../Home'
+import Cart from '../../components/Cart'
 
 const Products = () => {
   const { id } = useParams()
-  const [menus, setMenus] = useState<FoodInfos>()
 
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setMenus(res))
-  }, [id])
+  const { data: menu } = useGetRestaurantsIdQuery(id!)
 
-  if (!menus) {
-    return <h3>Carregando...</h3>
+  if (!menu) {
+    return <h4>carregando...</h4>
   }
 
   return (
@@ -28,18 +26,19 @@ const Products = () => {
       <HeaderPageProduct />
       <Banner
         bannerFood={{
-          id: menus.id,
-          titulo: menus.titulo,
-          destacado: menus.destacado,
-          capa: menus.capa,
-          tipo: menus.tipo,
-          avaliacao: menus.avaliacao,
-          descricao: menus.descricao,
+          id: menu.id,
+          titulo: menu.titulo,
+          destacado: menu.destacado,
+          capa: menu.capa,
+          tipo: menu.tipo,
+          avaliacao: menu.avaliacao,
+          descricao: menu.descricao,
           cardapio: []
         }}
       />
-      <FoodCartComponent items={menus.cardapio} />
+      <FoodCartComponent items={menu.cardapio} />
       <Footer />
+      <Cart />
     </>
   )
 }
