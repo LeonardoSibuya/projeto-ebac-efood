@@ -10,7 +10,8 @@ export const Container = styled.div`
   margin-top: 120px;
 
   p {
-    width: 800px;
+    max-width: 800px;
+    width: 100%;
     margin: 0 auto;
   }
 `

@@ -8,7 +8,8 @@ export const FoodContainer = styled.div`
   border-top: none;
   background-color: transparent;
   position: relative;
-  width: 480px;
+  max-width: 480px;
+  width: 100%;
 
   > img {
     width: 100%;

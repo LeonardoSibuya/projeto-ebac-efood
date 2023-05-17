@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const BannerContainer = styled.div`
   background-position: center;
@@ -30,6 +30,10 @@ export const Content = styled.div`
   padding: 24px 0;
   color: ${colors.white};
   font-size: 32px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 24px;
+  }
 
   span {
     font-weight: 100;

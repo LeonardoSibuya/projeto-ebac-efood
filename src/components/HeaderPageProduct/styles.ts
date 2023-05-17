@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import bgImage from '../../assets/images/bg-header.png'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Container = styled.div`
   background-image: url(${bgImage});
@@ -16,6 +16,12 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
 `
 
 export const LinkLogo = styled(Link)`
@@ -27,6 +33,10 @@ export const Title = styled.h2`
   font-size: 18px;
   color: ${colors.darkPink};
   margin-right: 80px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin: 0 auto;
+  }
 `
 export const CartButton = styled.a`
   cursor: pointer;

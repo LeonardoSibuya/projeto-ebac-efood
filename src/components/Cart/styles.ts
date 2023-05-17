@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 import lixeira from '../../assets/images/icons/lixeira.png'
 
@@ -32,6 +32,10 @@ export const SideBar = styled.aside`
   max-width: 360px;
   width: 100%;
   z-index: 1;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    max-width: 300px;
+  }
 `
 export const CartItem = styled.li`
   display: flex;

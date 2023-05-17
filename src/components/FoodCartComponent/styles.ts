@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 //Button Style
 export const ButtonCart = styled.button`
@@ -22,6 +22,16 @@ export const FoodContainer = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 40px;
   row-gap: 32px;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 
   li {
     background-color: ${colors.darkPink};
@@ -104,6 +114,11 @@ export const ModalContainer = styled.div`
   color: ${colors.white};
   gap: 24px;
 
+  @media (max-width: ${breakpoints.tablet}) {
+    flex-direction: column;
+    align-items: center;
+  }
+
   > div {
     img {
       width: 240px;
@@ -116,11 +131,20 @@ export const Content = styled.div`
     margin-bottom: 16px;
     font-size: 18px;
     font-weight: 900;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      text-align: center;
+      font-size: 16px;
+    }
   }
 
   p,
   span {
     font-size: 14px;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      text-align: center;
+    }
   }
 
   span {
@@ -131,5 +155,10 @@ export const Content = styled.div`
   ${ButtonCart} {
     position: relative;
     margin: 0 auto;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 `
