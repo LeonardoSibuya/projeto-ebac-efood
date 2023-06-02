@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Banner from '../../components/Banner'
@@ -8,9 +7,7 @@ import HeaderPageProduct from '../../components/HeaderPageProduct'
 import FoodCartComponent from '../../components/FoodCartComponent'
 
 import { useGetRestaurantsIdQuery } from '../../services/api'
-
-import { FoodInfos } from '../Home'
-import Cart from '../../components/Cart'
+import Checkout from '../Checkout'
 
 const Products = () => {
   const { id } = useParams()
@@ -38,7 +35,7 @@ const Products = () => {
       />
       <FoodCartComponent items={menu.cardapio} />
       <Footer />
-      <Cart />
+      <Checkout />
     </>
   )
 }

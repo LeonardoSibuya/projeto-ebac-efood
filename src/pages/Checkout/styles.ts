@@ -3,6 +3,10 @@ import { breakpoints, colors } from '../../styles'
 
 import lixeira from '../../assets/images/icons/lixeira.png'
 
+type PropsMargin = {
+  marginTop?: string
+}
+
 export const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -37,6 +41,15 @@ export const SideBar = styled.aside`
     max-width: 300px;
   }
 `
+
+export const ItemContent = styled.div`
+  display: block;
+
+  &.is-visible {
+    display: none;
+  }
+`
+
 export const CartItem = styled.li`
   display: flex;
   background-color: ${colors.lightPink};
@@ -74,6 +87,15 @@ export const CartItem = styled.li`
   }
 `
 
+export const TextOrder = styled.p`
+  span {
+    display: block;
+    padding: 12px 0;
+    font-size: 14px;
+    line-height: 22px;
+  }
+`
+
 export const PriceContainer = styled.div`
   margin: 40px 0 16px;
   display: flex;
@@ -84,7 +106,70 @@ export const PriceContainer = styled.div`
   font-size: 14px;
 `
 
-export const Button = styled.button`
+export const FormContainer = styled.div`
+  color: ${colors.white};
+
+  label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  label,
+  input {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    &.error {
+      border: 2px solid red;
+    }
+  }
+
+  input {
+    height: 32px;
+    margin: 8px 0;
+    border: 1px solid ${colors.darkPink};
+    padding-left: 8px;
+
+    &.cvv {
+      width: 87px;
+      max-width: 100%;
+    }
+
+    &.cardNum {
+      max-width: 100%;
+      width: 228px;
+    }
+  }
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    margin-bottom: 8px;
+  }
+
+  &.is-visible {
+    display: none;
+  }
+
+  h2 {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+`
+
+export const ButtonContainer = styled.div`
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const Button = styled.button<PropsMargin>`
   padding: 4px;
   font-weight: bold;
   color: ${colors.darkPink};
@@ -92,4 +177,5 @@ export const Button = styled.button`
   border: none;
   cursor: pointer;
   width: 100%;
+  margin-top: ${(props) => (props.marginTop ? '24px' : '')};
 `
