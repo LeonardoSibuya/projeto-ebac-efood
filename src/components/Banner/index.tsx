@@ -1,5 +1,4 @@
 import { BannerContainer, Content } from './styles'
-import { FoodInfos } from '../../pages/Home'
 
 type Props = {
   bannerFood: FoodInfos

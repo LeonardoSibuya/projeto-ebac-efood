@@ -5,26 +5,6 @@ import Footer from '../../components/Footer'
 
 import { useGetRestaurantsQuery } from '../../services/api'
 
-export interface CardapioItem {
-  id: number
-  foto: string
-  nome: string
-  descricao: string
-  preco: number
-  porcao: string
-}
-
-export type FoodInfos = {
-  id: number
-  titulo: string
-  destacado: boolean
-  capa: string
-  tipo: string
-  avaliacao: number
-  descricao: string
-  cardapio: CardapioItem[]
-}
-
 const Home = () => {
   const { data: FoodItems } = useGetRestaurantsQuery()
 

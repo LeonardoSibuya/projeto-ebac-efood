@@ -1,5 +1,3 @@
-import { FoodInfos } from '../../pages/Home'
-
 import FoodComponent from '../FoodComponent'
 
 import { ContentContainer, ListContainer } from './styles'

@@ -48,6 +48,13 @@ export const ItemContent = styled.div`
   &.is-visible {
     display: none;
   }
+
+  .empty-text {
+    color: ${colors.white};
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+  }
 `
 
 export const CartItem = styled.li`

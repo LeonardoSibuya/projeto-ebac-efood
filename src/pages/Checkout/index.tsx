@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import InputMask from 'react-input-mask'
 
 import { RootReducer } from '../../store'
-import { close, remove } from '../../store/reducers/cart'
+import { close, remove, clearCart } from '../../store/reducers/cart'
+
 import { usePurchaseMutation } from '../../services/api'
 
 import * as S from './styles'
@@ -13,10 +16,11 @@ import { formatPrice } from '../../components/FoodCartComponent'
 
 const Checkout = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
 
-  const [purchase, { isSuccess, data }] = usePurchaseMutation()
+  const [purchase, { isSuccess, data, isLoading }] = usePurchaseMutation()
 
   const [compraValidada, setCompraValidada] = useState(false)
   const [continueToPay, setContinueToPay] = useState(false)
@@ -33,6 +37,11 @@ const Checkout = () => {
     return items.reduce((acumulador, valorAtual) => {
       return (acumulador += valorAtual.preco)
     }, 0)
+  }
+
+  const completedPurchase = () => {
+    navigate('/')
+    dispatch(close())
   }
 
   const validaCompra = () => {
@@ -130,11 +139,17 @@ const Checkout = () => {
     return hasError
   }
 
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearCart())
+    }
+  }, [dispatch, isSuccess])
+
   return (
     <S.CartContainer className={isOpen ? 'is-open' : ''}>
       <S.Overlay onClick={closeCart} />
       <S.SideBar>
-        {isSuccess ? (
+        {isSuccess && data ? (
           <S.FormContainer>
             <h2>Pedido realizado - {data.orderId}</h2>
             <S.TextOrder>
@@ -156,30 +171,39 @@ const Checkout = () => {
                 gastronômica. Bom apetite!
               </span>
             </S.TextOrder>
-            <S.Button onClick={closeCart}>Concluir</S.Button>
+            <S.Button onClick={completedPurchase}>Concluir</S.Button>
           </S.FormContainer>
         ) : (
           <>
             <S.ItemContent className={compraValidada ? 'is-visible' : ''}>
-              <ul>
-                {items.map((item) => (
-                  <S.CartItem key={item.id}>
-                    <img src={item.foto} alt="" />
-                    <div>
-                      <h3>{item.nome}</h3>
-                      <span>{formatPrice(item.preco)}</span>
-                    </div>
-                    <button onClick={() => removeItemCart(item.id)} />
-                  </S.CartItem>
-                ))}
-              </ul>
-              <S.PriceContainer>
-                <h4>Valor total</h4>
-                <span>{formatPrice(getTotalPrice())}</span>
-              </S.PriceContainer>
-              <S.Button type="button" onClick={validaCompra}>
-                Continuar com a entrega
-              </S.Button>
+              {items.length > 0 ? (
+                <>
+                  <ul>
+                    {items.map((item) => (
+                      <S.CartItem key={item.id}>
+                        <img src={item.foto} alt="" />
+                        <div>
+                          <h3>{item.nome}</h3>
+                          <span>{formatPrice(item.preco)}</span>
+                        </div>
+                        <button onClick={() => removeItemCart(item.id)} />
+                      </S.CartItem>
+                    ))}
+                  </ul>
+                  <S.PriceContainer>
+                    <h4>Valor total</h4>
+                    <span>{formatPrice(getTotalPrice())}</span>
+                  </S.PriceContainer>
+                  <S.Button type="button" onClick={validaCompra}>
+                    Continuar com a entrega
+                  </S.Button>
+                </>
+              ) : (
+                <p className="empty-text">
+                  O carrinho está vazio, adicione pelo menos um produto para
+                  continuar com a compra
+                </p>
+              )}
             </S.ItemContent>
 
             <form onSubmit={form.handleSubmit}>
@@ -219,7 +243,8 @@ const Checkout = () => {
                   <div>
                     <div>
                       <label htmlFor="cep">CEP</label>
-                      <input
+                      <InputMask
+                        mask="999.999.999-99"
                         type="text"
                         id="cep"
                         name="cep"
@@ -288,7 +313,8 @@ const Checkout = () => {
                   <div>
                     <div>
                       <label htmlFor="cardNumber">Número do cartão</label>
-                      <input
+                      <InputMask
+                        mask="9999 9999 9999 9999"
                         type="text"
                         id="cardNumber"
                         name="cardNumber"
@@ -304,7 +330,8 @@ const Checkout = () => {
                     </div>
                     <div>
                       <label htmlFor="cvv">CVV</label>
-                      <input
+                      <InputMask
+                        mask="999"
                         type="text"
                         id="cvv"
                         name="cvv"
@@ -320,7 +347,8 @@ const Checkout = () => {
                   <div>
                     <div>
                       <label htmlFor="expiresMonth">Mês de vencimento</label>
-                      <input
+                      <InputMask
+                        mask="99"
                         type="text"
                         id="expiresMonth"
                         name="expiresMonth"
@@ -334,7 +362,8 @@ const Checkout = () => {
                     </div>
                     <div>
                       <label htmlFor="expiresYear">Ano de vencimento</label>
-                      <input
+                      <InputMask
+                        mask="99"
                         type="text"
                         id="expiresYear"
                         name="expiresYear"
@@ -348,7 +377,9 @@ const Checkout = () => {
                     </div>
                   </div>
                   <S.Button type="submit" marginTop="24px">
-                    Finalizar pagamento
+                    {isLoading
+                      ? 'Finalizando Pagamento...'
+                      : 'Finalizar Pagamento'}
                   </S.Button>
                   <S.Button
                     type="button"

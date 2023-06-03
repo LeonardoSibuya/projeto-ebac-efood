@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux'
 
 import botaoFechar from '../../assets/images/fechar.png'
 
-import { CardapioItem } from '../../pages/Home/index'
-
 import { add, open } from '../../store/reducers/cart'
 
 import {
