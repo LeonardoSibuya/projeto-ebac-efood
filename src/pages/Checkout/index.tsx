@@ -119,14 +119,11 @@ const Checkout = () => {
             }
           }
         },
-        products: [
-          {
-            id: 1,
-            price: 10
-          }
-        ]
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.preco
+        }))
       })
-      console.log(values)
     }
   })
 
